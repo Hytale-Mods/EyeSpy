@@ -1,0 +1,16 @@
+Group {
+  Anchor: (Top: 20, MinWidth: 50, MaxWidth: 500);
+  LayoutMode: Top;
+  Group #TimeLeft {
+    Anchor: (Top: 20);
+    Background: #000000(0.2);
+    Padding: (Horizontal: 20, Vertical: 10);
+    LayoutMode: Left;
+
+    Label #MyLabel {
+      Style: LabelStyle(FontSize: 16); // or just Style: (FontSize: 16), type can be inferred.
+      Text: "Hi! I am text.";
+    }
+
+  }
+}

@@ -1,0 +1,81 @@
+plugins {
+    id 'java'
+    id 'org.jetbrains.gradle.plugin.idea-ext' version '1.3'
+    id 'maven-publish'
+}
+
+ext {
+    userHome = System.getProperty("user.home")
+}
+
+java {
+    toolchain.languageVersion = JavaLanguageVersion.of(java_version)
+    withSourcesJar()
+    withJavadocJar()
+}
+
+// Quiet warnings about missing Javadocs.
+javadoc {
+    options.addStringOption('Xdoclint:-missing', '-quiet')
+}
+
+repositories {
+    mavenCentral()
+}
+
+// Adds the Hytale server as a build dependency, allowing you to reference and
+// compile against their code. This requires you to have Hytale installed using
+// the official launcher for now.
+dependencies {
+    implementation(files("$userHome/AppData/Roaming/Hytale/install/pre-release/package/game/latest/Server/HytaleServer.jar"))
+}
+
+// Determines which properties will be passed from the Gradle runtime to
+// resources as they are compiled into your plugin.
+processResources {
+    var expandProps = [
+            'name'          : project.name,
+            'version'       : project.version,
+            'group'         : project.group,
+            'description'   : description,
+            'website'       : website,
+            'server_version': server_version,
+            'project_group' : plugin_group,
+            'author'        : author
+    ]
+    filesMatching(['manifest.json']) {
+        expand expandProps
+    }
+    inputs.properties(expandProps)
+}
+
+// Create the working directory to run the server if it does not already exist.
+def serverRunDir = file("$projectDir/run/server")
+if (!serverRunDir.exists()) {
+    serverRunDir.mkdirs()
+}
+
+// Creates a run configuration in IDEA that will run the Hytale server with
+// your plugin and the default assets.
+idea.project.settings.runConfigurations {
+    'HytaleServer'(org.jetbrains.gradle.ext.Application) {
+        mainClass = 'com.hypixel.hytale.Main'
+        moduleName = project.idea.module.name + '.main'
+        programParameters = "--allow-op --accept-early-plugins --assets=$userHome/AppData/Roaming/Hytale/install/pre-release/package/game/latest/Assets --packs=$userHome/AppData/Roaming/Hytale/UserData/Packs"
+        workingDirectory = serverRunDir.absolutePath
+    }
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+            groupId = project.group
+            artifactId = project.name
+            version = project.version
+        }
+    }
+    repositories {
+        mavenLocal()
+    }
+}
