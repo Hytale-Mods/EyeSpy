@@ -23,7 +23,7 @@ import javax.annotation.Nonnull;
 
 public class EyeSpyHud extends CustomUIHud {
 
-    private Message labelText = Message.empty();
+    private Message labelText = null;
 
     public EyeSpyHud(@Nonnull PlayerRef playerRef) {
         super(playerRef);

@@ -1,11 +1,12 @@
 Group {
-  Anchor: (Top: 20, MinWidth: 50, MaxWidth: 500);
-  LayoutMode: Top;
+  Anchor: (Top: 20);
+  LayoutMode: Left;
+  Label {FlexWeight: 1;}
   Group #TimeLeft {
     Anchor: (Top: 20);
     Background: #000000(0.2);
     Padding: (Horizontal: 20, Vertical: 10);
-    LayoutMode: Left;
+    LayoutMode: Top;
 
     Label #MyLabel {
       Style: LabelStyle(FontSize: 16); // or just Style: (FontSize: 16), type can be inferred.
@@ -13,4 +14,5 @@ Group {
     }
 
   }
+  Label {FlexWeight: 1;}
 }

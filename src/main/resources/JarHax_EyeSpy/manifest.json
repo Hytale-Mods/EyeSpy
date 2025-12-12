@@ -1,0 +1,23 @@
+{
+  "Group": "JarHax",
+  "Name": "EyeSpy",
+  "Version": "1.0.0",
+  "Description": "",
+  "Authors": [
+    {
+      "Name": "Jaredlll08",
+      "Email": "jluboff8@gmail.com",
+      "Url": "https://blamejared.com"
+    }
+  ],
+  "Website": "https://blamejared.com",
+  "ServerVersion": "*",
+  "Dependencies": {
+    "Hytale:EntityModule": "*",
+    "Hytale:AssetModule": "*"
+  },
+  "OptionalDependencies": {},
+  "DisabledByDefault": false,
+  "Main": "com.jarhax.eyespy.EyeSpy",
+  "IncludesAssetPack": true
+}
