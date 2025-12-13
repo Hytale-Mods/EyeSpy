@@ -7,6 +7,8 @@ import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.math.vector.Vector3i;
 import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.asset.type.blocktype.config.BlockType;
+import com.hypixel.hytale.server.core.asset.type.item.config.Item;
+import com.hypixel.hytale.server.core.asset.type.item.config.ItemTranslationProperties;
 import com.hypixel.hytale.server.core.entity.EntityUtils;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.entity.entities.player.hud.CustomUIHud;
@@ -45,9 +47,9 @@ public class EyeSpyHud extends CustomUIHud {
                 WorldChunk chunk = archetypeChunk.getComponent(index, TransformComponent.getComponentType()).getChunk();
                 int block = chunk.getBlock(targetBlock);
 
-                int x =targetBlock.getX();
-                int y =targetBlock.getY();
-                int z =targetBlock.getZ();
+                int x = targetBlock.getX();
+                int y = targetBlock.getY();
+                int z = targetBlock.getZ();
 
                 int filler = chunk.getFiller(targetBlock.getX(), targetBlock.getY(), targetBlock.getZ());
                 if (filler != 0) {
@@ -55,14 +57,10 @@ public class EyeSpyHud extends CustomUIHud {
                     y -= FillerBlockUtil.unpackY(filler);
                     z -= FillerBlockUtil.unpackZ(filler);
                 }
-                BlockState state = chunk.getState(x,y,z);
+                BlockState state = chunk.getState(x, y, z);
                 BlockType asset = BlockType.getAssetMap().getAsset(block);
                 if (asset != null) {
-                    if (asset.getItem() != null) {
-
-                        String name = asset.getItem().getTranslationProperties().getName();
-                        labelText = Message.translation(name);
-                    }
+                    labelText = getDisplayName(asset);
                 }
             }
         }
@@ -71,7 +69,7 @@ public class EyeSpyHud extends CustomUIHud {
     @Override
     protected void build(@Nonnull UICommandBuilder commandBuilder) {
         commandBuilder.append("Hud/Test.ui");
-        if(this.labelText !=null) {
+        if (this.labelText != null) {
             commandBuilder.set("#MyLabel.Text", this.labelText);
         }
     }
@@ -80,5 +78,19 @@ public class EyeSpyHud extends CustomUIHud {
     public void update(boolean clear, @Nonnull UICommandBuilder commandBuilder) {
         super.update(clear, commandBuilder);
 
+    }
+
+    private static Message getDisplayName(BlockType type) {
+        final Item item = type.getItem();
+        if (item != null) {
+            final ItemTranslationProperties translations = item.getTranslationProperties();
+            if (translations != null) {
+                final String nameKey = translations.getName();
+                if (nameKey != null) {
+                    return Message.translation(nameKey);
+                }
+            }
+        }
+        return Message.raw(type.getId());
     }
 }
