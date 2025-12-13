@@ -68,7 +68,8 @@ public class EyeSpyHud extends CustomUIHud {
 
     @Override
     protected void build(@Nonnull UICommandBuilder commandBuilder) {
-        if (this.labelText != null) {
+        // TODO we shouldn't need the empty document or rawtext check, but upstream issues cause a crash.
+        if (this.labelText != null && !this.labelText.toDocument().isEmpty() && !this.labelText.toDocument().isString("RawText")) {
             commandBuilder.append("Hud/Test.ui");
             commandBuilder.set("#MyLabel.Text", this.labelText);
         }
