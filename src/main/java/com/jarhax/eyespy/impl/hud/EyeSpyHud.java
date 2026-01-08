@@ -1,4 +1,4 @@
-package com.jarhax.eyespy;
+package com.jarhax.eyespy.impl.hud;
 
 import com.hypixel.hytale.component.ArchetypeChunk;
 import com.hypixel.hytale.component.CommandBuffer;
@@ -12,9 +12,10 @@ import com.hypixel.hytale.server.core.entity.entities.player.hud.CustomUIHud;
 import com.hypixel.hytale.server.core.ui.builder.UICommandBuilder;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
-import com.jarhax.eyespy.api.InfoProvider;
+import com.jarhax.eyespy.api.info.InfoProvider;
 import com.jarhax.eyespy.api.context.BlockContext;
 import com.jarhax.eyespy.api.info.InfoBuilder;
+import com.jarhax.eyespy.impl.info.VanillaBlockInfoProvider;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -24,40 +25,49 @@ import java.util.List;
 public class EyeSpyHud extends CustomUIHud {
 
     // TODO Allow plugins to register new providers;
-    private static final List<InfoProvider<BlockContext, InfoBuilder>> blockInfoProviders = new LinkedList<>();
+    private static final List<InfoProvider<BlockContext>> blockInfoProviders = new LinkedList<>();
 
     static {
         blockInfoProviders.add(new VanillaBlockInfoProvider());
     }
 
+    @Nullable
     private InfoBuilder info;
+
+    @Nullable
+    private BlockContext blockContext;
 
     public EyeSpyHud(@Nonnull PlayerRef playerRef) {
         super(playerRef);
     }
 
     public void updateHud(float dt, int index, @Nonnull ArchetypeChunk<EntityStore> archetypeChunk, @Nonnull Store<EntityStore> store, @Nonnull CommandBuffer<EntityStore> commandBuffer) {
-        info = new InfoBuilder();
+        this.info = new InfoBuilder();
         final Holder<EntityStore> holder = EntityUtils.toHolder(index, archetypeChunk);
         final Player player = holder.getComponent(Player.getComponentType());
         if (player != null && player.getWorld() != null) {
-            final BlockContext blockContext = BlockContext.create(player, dt, index, archetypeChunk, store, commandBuffer);
-            if (blockContext != null) {
-                for (InfoProvider<BlockContext, InfoBuilder> provider : blockInfoProviders) {
-                    provider.updateDescription(blockContext, info);
+            this.blockContext = BlockContext.create(player, dt, index, archetypeChunk, store, commandBuffer);
+            if (this.blockContext != null) {
+                for (InfoProvider<BlockContext> provider : blockInfoProviders) {
+                    provider.updateDescription(this.blockContext, this.info);
                 }
             }
         }
     }
 
     @Override
-    protected void build(@Nonnull UICommandBuilder commandBuilder) {
-        if (info != null) {
-            commandBuilder.append("Hud/EyeSpy.ui");
-            setText(commandBuilder, "#Header", this.info.getHeader());
-            setText(commandBuilder, "#Body", this.info.getBody());
-            setText(commandBuilder, "#Footer", this.info.getFooter());
-            setIcon(commandBuilder, this.info.getIcon());
+    protected void build(@Nonnull UICommandBuilder ui) {
+        if (this.info != null) {
+            ui.append("Hud/EyeSpy.ui");
+            setText(ui, "#Header", this.info.getHeader());
+            setText(ui, "#Body", this.info.getBody());
+            setText(ui, "#Footer", this.info.getFooter());
+            setIcon(ui, this.info.getIcon());
+        }
+        if (this.blockContext != null) {
+            for (InfoProvider<BlockContext> provider : blockInfoProviders) {
+                provider.modifyUI(this.blockContext, ui);
+            }
         }
     }
 
@@ -74,23 +84,23 @@ public class EyeSpyHud extends CustomUIHud {
         return false;
     }
 
-    private void setText(@Nonnull UICommandBuilder commandBuilder, @Nonnull String selector, @Nullable Message value) {
+    private static void setText(@Nonnull UICommandBuilder ui, @Nonnull String selector, @Nullable Message value) {
         if (!isValid(value)) {
-            commandBuilder.set(selector + ".Visible", false);
+            ui.set(selector + ".Visible", false);
         }
         else {
-            commandBuilder.set(selector + ".Visible", true);
-            commandBuilder.set(selector + ".TextSpans", value);
+            ui.set(selector + ".Visible", true);
+            ui.set(selector + ".TextSpans", value);
         }
     }
 
-    private void setIcon(@Nonnull UICommandBuilder commandBuilder, @Nullable String iconId) {
+    private static void setIcon(@Nonnull UICommandBuilder ui, @Nullable String iconId) {
         if (iconId == null) {
-            commandBuilder.set("#Icon.Visible", false);
+            ui.set("#Icon.Visible", false);
         }
         else {
-            commandBuilder.set("#Icon.Visible", true);
-            commandBuilder.set("#Icon.ItemId", this.info.getIcon());
+            ui.set("#Icon.Visible", true);
+            ui.set("#Icon.ItemId", iconId);
         }
     }
 }

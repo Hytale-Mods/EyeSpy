@@ -2,6 +2,7 @@ package com.jarhax.eyespy;
 
 import com.hypixel.hytale.server.core.plugin.JavaPlugin;
 import com.hypixel.hytale.server.core.plugin.JavaPluginInit;
+import com.jarhax.eyespy.impl.hud.PlayerTickSystem;
 
 import javax.annotation.Nonnull;
 

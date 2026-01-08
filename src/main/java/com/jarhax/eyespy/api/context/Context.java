@@ -1,4 +1,4 @@
-package com.jarhax.eyespy.api;
+package com.jarhax.eyespy.api.context;
 
 import com.hypixel.hytale.component.ArchetypeChunk;
 import com.hypixel.hytale.component.CommandBuffer;
