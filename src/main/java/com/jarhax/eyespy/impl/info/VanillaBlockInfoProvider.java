@@ -64,7 +64,12 @@ public class VanillaBlockInfoProvider implements InfoProvider<BlockContext> {
                                     continue outer;
                                 }
                             }
-                            stacks.add(stack);
+                            // Crash workaround by setting Durability of broken items to 1.0 and removing any Metadata
+                            // TODO Find actual fix :)
+                            ItemStack safeStack = stack.withMetadata(null)
+                                    .withDurability(stack.getMaxDurability() > 0 ? Math.max(1.0, stack.getDurability()) : stack.getDurability());
+
+                            stacks.add(safeStack);
                         }
                         yield new ItemGridValue(s, stacks);
                     }
