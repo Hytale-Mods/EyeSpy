@@ -3,6 +3,7 @@ package com.jarhax.eyespy.impl.info;
 import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.modules.entity.component.DisplayNameComponent;
+import com.hypixel.hytale.server.core.modules.entity.component.ModelComponent;
 import com.hypixel.hytale.server.core.modules.entitystats.EntityStatMap;
 import com.hypixel.hytale.server.core.modules.entitystats.EntityStatValue;
 import com.hypixel.hytale.server.core.modules.entitystats.asset.EntityStatType;
@@ -18,6 +19,14 @@ public class VanillaEntityInfoProvider implements InfoProvider<EntityContext> {
     public void updateDescription(EntityContext context, InfoBuilder infoBuilder) {
 
         final Store<EntityStore> store = context.getStore();
+
+        //Get Model Component and Asset ID to filter out invisible path marker entities
+        ModelComponent modelComponent = store.getComponent(context.entity(), ModelComponent.getComponentType());
+        String modelAssetId = modelComponent.getModel().getModelAssetId();
+        if (modelAssetId.equals("NPC_Path_Marker")) {
+            return;
+        }
+
         final DisplayNameComponent displayName = store.getComponent(context.entity(), DisplayNameComponent.getComponentType());
         if (displayName != null) {
             infoBuilder.set("Header", s -> new LabelValue(s, displayName.getDisplayName(), 24));
