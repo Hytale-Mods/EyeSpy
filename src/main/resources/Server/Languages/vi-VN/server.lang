@@ -1,0 +1,12 @@
+eyespy.lines.2=\n
+eyespy.tier=Bậc: {tier}
+eyespy.level=Cấp độ: {level}
+eyespy.capacity=Sức chứa: {capacity}
+eyespy.size=Kích thước: {size}
+eyespy.progress=Tiến độ: {progress}%
+eyespy.state=Giai đoạn: {current}/{max}
+eyespy.timer=Thời gian: {time}
+eyespy.cooldown=Hồi chiêu: {time}
+eyespy.enabled=Đã bật
+eyespy.disabled=Đã tắt
+eyespy.powered=Đã cấp điện
