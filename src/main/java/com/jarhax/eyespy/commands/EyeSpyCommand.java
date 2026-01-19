@@ -36,10 +36,10 @@ public class EyeSpyCommand extends AbstractPlayerCommand {
         Message prefix = Message.raw("[EyeSpy] ").color("#55FFFF");
         
         if (newState) {
-            Message content = Message.raw("HUD has been enabled!").color("#55FF55");
+            Message content = Message.raw("HUD has been enabled!").color("#00FF00");
             ctx.sendMessage(Message.join(prefix, content));
         } else {
-            Message content = Message.raw("HUD has been disabled! You might have to rejoin for it to take effect.").color("#FF5555");
+            Message content = Message.raw("HUD has been disabled!").color("#FF5555");
             ctx.sendMessage(Message.join(prefix, content));
         }
     }

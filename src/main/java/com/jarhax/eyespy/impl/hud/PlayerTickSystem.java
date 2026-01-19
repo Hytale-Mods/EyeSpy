@@ -42,7 +42,8 @@ public class PlayerTickSystem extends EntityTickingSystem<EntityStore> {
         boolean shouldShow = hasPermission && isEnabled;
         
         if (!shouldShow) {
-            // Don't show/update the HUD - just return
+            // Simulate looking at empty/air to clear the HUD
+            EyeSpy.provider.hideHud(index, archetypeChunk, store);
             return;
         }
         

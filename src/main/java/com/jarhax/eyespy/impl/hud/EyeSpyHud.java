@@ -93,4 +93,11 @@ public class EyeSpyHud extends CustomUIHud {
             }
         }
     }
+    
+    public void clearHud() {
+        this.info = new InfoBuilder();
+        this.blockContext = null;
+        this.entityContext = null;
+        this.show();
+    }
 }
