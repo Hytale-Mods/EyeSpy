@@ -16,6 +16,10 @@ ext {
     hytaleHome = "${System.getProperty("user.home")}/AppData/Roaming/Hytale"
 }
 
+repositories {
+    mavenCentral()
+}
+
 java {
     toolchain.languageVersion = JavaLanguageVersion.of(java_version)
     withSourcesJar()
@@ -33,6 +37,7 @@ javadoc {
 dependencies {
     compileOnly(files("$hytaleHome/install/$patchline/package/game/latest/Server/HytaleServer.jar"))
     compileOnly(files("libs/MultipleHUD-1.0.2.jar"))
+    implementation("org.yaml:snakeyaml:2.3")
 }
 
 // Create the working directory to run the server if it does not already exist.
@@ -97,9 +102,9 @@ if (envFile.exists()) {
     }
 }
 
-def modsPath = envVars['HYTALE_MODS_DIR'] ?: 'build/libs'
+def modsPath = envVars['SHADOW_JAR_LOCATION'] ?: 'build/libs'
 
-// Configure shadowJar task to copy to HYTALE_MODS_DIR
+// Configure shadowJar task to copy to SHADOW_JAR_LOCATION
 shadowJar {
     archiveClassifier.set('')
     destinationDirectory.set(file(modsPath))

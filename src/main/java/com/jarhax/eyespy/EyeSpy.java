@@ -13,6 +13,7 @@ import com.hypixel.hytale.server.core.plugin.PluginManager;
 import com.jarhax.eyespy.api.hud.HudProvider;
 import com.jarhax.eyespy.api.hud.MultiHudProvider;
 import com.jarhax.eyespy.api.hud.VanillaHudProvider;
+import com.jarhax.eyespy.commands.EyeSpyCommand;
 import com.jarhax.eyespy.impl.hud.PlayerTickSystem;
 
 import javax.annotation.Nonnull;
@@ -26,15 +27,20 @@ public class EyeSpy extends JavaPlugin {
     public static final Map<String, String> OWNERSHIP = new HashMap<>();
 
     public static HudProvider provider = new VanillaHudProvider();
+    private static EyeSpy instance;
+    private UserDataManager userDataManager;
 
     public EyeSpy(@Nonnull JavaPluginInit init) {
         super(init);
+        instance = this;
+        userDataManager = new UserDataManager(this.getDataDirectory());
     }
 
     @Override
     protected void setup() {
         super.setup();
         this.getEntityStoreRegistry().registerSystem(new PlayerTickSystem());
+        this.getCommandRegistry().registerCommand(new EyeSpyCommand(this));
     }
 
     @Override
@@ -57,5 +63,13 @@ public class EyeSpy extends JavaPlugin {
         }
         final long end = System.nanoTime();
         LOGGER.atInfo().log("Determined owners for %d blocks. Took %fms", OWNERSHIP.size(), (end - start) / 1_000_000f);
+    }
+    
+    public static EyeSpy getInstance() {
+        return instance;
+    }
+    
+    public UserDataManager getUserDataManager() {
+        return userDataManager;
     }
 }

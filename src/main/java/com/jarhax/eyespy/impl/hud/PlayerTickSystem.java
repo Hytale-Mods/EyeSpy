@@ -35,6 +35,11 @@ public class PlayerTickSystem extends EntityTickingSystem<EntityStore> {
         if (player == null || playerRef == null) {
             return;
         }
+        
+        if (!EyeSpy.getInstance().getUserDataManager().isEnabled(playerRef.getUuid(), playerRef.getUsername())) {
+            return;
+        }
+        
         EyeSpy.provider.showHud(dt, index, archetypeChunk, store, commandBuffer);
     }
 
