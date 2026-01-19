@@ -38,4 +38,19 @@ public class VanillaHudProvider implements HudProvider {
             customUIHud.show();
         }
     }
+
+    @Override
+    public void hideHud(int index, @NonNullDecl ArchetypeChunk<EntityStore> archetypeChunk, @NonNullDecl Store<EntityStore> store) {
+        final Holder<EntityStore> holder = EntityUtils.toHolder(index, archetypeChunk);
+        final Player player = holder.getComponent(Player.getComponentType());
+        final PlayerRef playerRef = holder.getComponent(PlayerRef.getComponentType());
+        if (player == null || playerRef == null) {
+            return;
+        }
+        // Only clear if HUD actually exists for this player
+        if (huds.containsKey(playerRef)) {
+            player.getHudManager().setCustomHud(playerRef, null);
+            huds.remove(playerRef);
+        }
+    }
 }

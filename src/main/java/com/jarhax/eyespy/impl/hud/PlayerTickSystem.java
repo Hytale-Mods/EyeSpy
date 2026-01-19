@@ -36,7 +36,13 @@ public class PlayerTickSystem extends EntityTickingSystem<EntityStore> {
             return;
         }
         
-        if (!EyeSpy.getInstance().getUserDataManager().isEnabled(playerRef.getUuid(), playerRef.getUsername())) {
+        // Check permission first - if no permission, don't show HUD regardless of settings
+        boolean hasPermission = player.hasPermission("eyespy.use");
+        boolean isEnabled = EyeSpy.getInstance().getUserDataManager().isEnabled(playerRef.getUuid(), playerRef.getUsername());
+        boolean shouldShow = hasPermission && isEnabled;
+        
+        if (!shouldShow) {
+            // Don't show/update the HUD - just return
             return;
         }
         
