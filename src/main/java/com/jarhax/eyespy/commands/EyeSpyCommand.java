@@ -33,10 +33,14 @@ public class EyeSpyCommand extends AbstractPlayerCommand {
         
         boolean newState = plugin.getUserDataManager().toggleEnabled(playerRef.getUuid(), playerRef.getUsername());
         
+        Message prefix = Message.raw("[EyeSpy] ").color("#55FFFF");
+        
         if (newState) {
-            ctx.sendMessage(Message.raw("EyeSpy HUD enabled!").color("#00FF00"));
+            Message content = Message.raw("HUD has been enabled!").color("#55FF55");
+            ctx.sendMessage(Message.join(prefix, content));
         } else {
-            ctx.sendMessage(Message.raw("EyeSpy HUD disabled!").color("#FF0000"));
+            Message content = Message.raw("HUD has been disabled! You might have to rejoin for it to take effect.").color("#FF5555");
+            ctx.sendMessage(Message.join(prefix, content));
         }
     }
 }
