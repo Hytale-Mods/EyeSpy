@@ -50,9 +50,9 @@ public class EntityContext extends Context {
             if (mc.getModel().equals(PathPlugin.get().getPathMarkerModel())) {
                 return null;
             }
-            int X = (int) Math.floor(position.x);
-            int Z = (int) Math.floor(position.z);
-            long chunkIndex = ChunkUtil.indexChunkFromBlock(X, Z);
+            int x = (int) Math.floor(position.x);
+            int z = (int) Math.floor(position.z);
+            long chunkIndex = ChunkUtil.indexChunkFromBlock(x, z);
             WorldChunk chunk = world.getChunkIfLoaded(chunkIndex);
             return new EntityContext(dt, index, archetypeChunk, store, commandBuffer, player, chunk, targetEntity);
         }
