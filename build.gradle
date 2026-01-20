@@ -26,12 +26,25 @@ javadoc {
     options.addStringOption('Xdoclint:-missing', '-quiet')
 }
 
+repositories {
+    exclusiveContent {
+        forRepository {
+            maven {
+                url "https://cursemaven.com"
+            }
+        }
+        filter {
+            includeGroup "curse.maven"
+        }
+    }
+}
+
 // Adds the Hytale server as a build dependency, allowing you to reference and
 // compile against their code. This requires you to have Hytale installed using
 // the official launcher for now.
 dependencies {
     implementation(files("$hytaleHome/install/$patchline/package/game/latest/Server/HytaleServer.jar"))
-    compileOnly(files("libs/MultipleHUD-1.0.1.jar"))
+    compileOnly("curse.maven:mhud-1423634:7484171")
 }
 
 // Create the working directory to run the server if it does not already exist.
