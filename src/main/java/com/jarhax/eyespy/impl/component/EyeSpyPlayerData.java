@@ -11,8 +11,8 @@ import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.server.core.plugin.PluginBase;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.jarhax.eyespy.api.EyeSpyConfig;
-import com.jarhax.eyespy.impl.hud.LayoutMode;
 import com.jarhax.eyespy.api.info.AnchorBuilder;
+import com.jarhax.eyespy.impl.hud.LayoutMode;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 public class EyeSpyPlayerData implements Component<EntityStore>, EyeSpyConfig {
