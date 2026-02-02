@@ -15,7 +15,6 @@ import com.hypixel.hytale.server.core.ui.builder.UICommandBuilder;
 import com.hypixel.hytale.server.core.ui.builder.UIEventBuilder;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
-import com.jarhax.eyespy.EyeSpy;
 import com.jarhax.eyespy.api.hud.LayoutMode;
 import com.jarhax.eyespy.api.info.AnchorBuilder;
 import com.jarhax.eyespy.impl.component.EyeSpyPlayerData;

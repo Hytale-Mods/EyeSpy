@@ -4,7 +4,6 @@ import com.hypixel.hytale.server.core.inventory.ItemStack;
 import com.hypixel.hytale.server.core.ui.builder.UICommandBuilder;
 import com.jarhax.eyespy.api.info.AnchorBuilder;
 import com.jarhax.eyespy.api.info.InfoValue;
-import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
 
 import javax.annotation.Nonnull;
 import java.util.List;

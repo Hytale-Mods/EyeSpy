@@ -9,7 +9,6 @@ import com.hypixel.hytale.server.core.ui.builder.UICommandBuilder;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
-import com.jarhax.eyespy.EyeSpy;
 import com.jarhax.eyespy.api.EyeSpyConfig;
 import com.jarhax.eyespy.api.context.BlockContext;
 import com.jarhax.eyespy.api.context.EntityContext;
