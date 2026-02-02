@@ -10,11 +10,9 @@ import com.hypixel.hytale.server.core.entity.EntityUtils;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
-import com.jarhax.eyespy.EyeSpy;
+import com.jarhax.eyespy.api.hud.HudProvider;
 
 import javax.annotation.Nonnull;
-import java.util.HashMap;
-import java.util.Map;
 
 public class PlayerTickSystem extends EntityTickingSystem<EntityStore> {
 
@@ -34,7 +32,7 @@ public class PlayerTickSystem extends EntityTickingSystem<EntityStore> {
             return;
         }
 
-        EyeSpy.provider.showHud(dt, index, archetypeChunk, store, commandBuffer);
+        HudProvider.PROVIDER.get().showHud(dt, index, archetypeChunk, store, commandBuffer);
     }
 
     @Nonnull
