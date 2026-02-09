@@ -6,6 +6,8 @@ import com.hypixel.hytale.codec.builder.BuilderCodec;
 import com.hypixel.hytale.server.core.ui.Anchor;
 import com.hypixel.hytale.server.core.ui.Value;
 
+import javax.annotation.Nullable;
+
 /**
  * Defines the properties of an Anchor element and can be used to build an Anchor instance.
  */
@@ -80,7 +82,7 @@ public class AnchorProperties {
      * @param left The offset to add.
      * @return The same anchor properties instance.
      */
-    public AnchorProperties setLeft(Integer left) {
+    public AnchorProperties setLeft(@Nullable Integer left) {
         this.left = left;
         return this;
     }
@@ -91,7 +93,7 @@ public class AnchorProperties {
      * @param right The offset to add.
      * @return The same anchor properties instance.
      */
-    public AnchorProperties setRight(Integer right) {
+    public AnchorProperties setRight(@Nullable Integer right) {
         this.right = right;
         return this;
     }
@@ -102,7 +104,7 @@ public class AnchorProperties {
      * @param top The offset to add.
      * @return The same anchor properties instance.
      */
-    public AnchorProperties setTop(Integer top) {
+    public AnchorProperties setTop(@Nullable Integer top) {
         this.top = top;
         return this;
     }
@@ -113,7 +115,7 @@ public class AnchorProperties {
      * @param bottom The offset to add.
      * @return The same anchor properties instance.
      */
-    public AnchorProperties setBottom(Integer bottom) {
+    public AnchorProperties setBottom(@Nullable Integer bottom) {
         this.bottom = bottom;
         return this;
     }
@@ -124,7 +126,7 @@ public class AnchorProperties {
      * @param height The height of the element.
      * @return The same anchor properties instance.
      */
-    public AnchorProperties setHeight(Integer height) {
+    public AnchorProperties setHeight(@Nullable Integer height) {
         this.height = height;
         return this;
     }
@@ -135,7 +137,7 @@ public class AnchorProperties {
      * @param full The offset to add.
      * @return The same anchor properties instance.
      */
-    public AnchorProperties setFull(Integer full) {
+    public AnchorProperties setFull(@Nullable Integer full) {
         this.full = full;
         return this;
     }
@@ -146,7 +148,7 @@ public class AnchorProperties {
      * @param horizontal The offset to add.
      * @return The same anchor properties instance.
      */
-    public AnchorProperties setHorizontal(Integer horizontal) {
+    public AnchorProperties setHorizontal(@Nullable Integer horizontal) {
         this.horizontal = horizontal;
         return this;
     }
@@ -157,7 +159,7 @@ public class AnchorProperties {
      * @param vertical The offset to add.
      * @return The same anchor properties instance.
      */
-    public AnchorProperties setVertical(Integer vertical) {
+    public AnchorProperties setVertical(@Nullable Integer vertical) {
         this.vertical = vertical;
         return this;
     }
@@ -168,7 +170,7 @@ public class AnchorProperties {
      * @param width The width of the element.
      * @return The same anchor properties instance.
      */
-    public AnchorProperties setWidth(Integer width) {
+    public AnchorProperties setWidth(@Nullable Integer width) {
         this.width = width;
         return this;
     }
@@ -179,7 +181,7 @@ public class AnchorProperties {
      * @param minWidth The minimum width of the element.
      * @return The same anchor properties instance.
      */
-    public AnchorProperties setMinWidth(Integer minWidth) {
+    public AnchorProperties setMinWidth(@Nullable Integer minWidth) {
         this.minWidth = minWidth;
         return this;
     }
@@ -190,7 +192,7 @@ public class AnchorProperties {
      * @param maxWidth The maximum width of the element.
      * @return The same anchor properties instance.
      */
-    public AnchorProperties setMaxWidth(Integer maxWidth) {
+    public AnchorProperties setMaxWidth(@Nullable Integer maxWidth) {
         this.maxWidth = maxWidth;
         return this;
     }
@@ -200,6 +202,7 @@ public class AnchorProperties {
      *
      * @return The offset on the left side of the element.
      */
+    @Nullable
     public Integer left() {
         return left;
     }
@@ -209,6 +212,7 @@ public class AnchorProperties {
      *
      * @return The offset on the right side of the element.
      */
+    @Nullable
     public Integer right() {
         return right;
     }
@@ -218,6 +222,7 @@ public class AnchorProperties {
      *
      * @return The offset on the top side of the element.
      */
+    @Nullable
     public Integer top() {
         return top;
     }
@@ -227,6 +232,7 @@ public class AnchorProperties {
      *
      * @return The offset on the bottom side of the element.
      */
+    @Nullable
     public Integer bottom() {
         return bottom;
     }
@@ -236,6 +242,7 @@ public class AnchorProperties {
      *
      * @return The height of the element.
      */
+    @Nullable
     public Integer height() {
         return height;
     }
@@ -245,6 +252,7 @@ public class AnchorProperties {
      *
      * @return The full offset applied to all sides.
      */
+    @Nullable
     public Integer full() {
         return full;
     }
@@ -254,6 +262,7 @@ public class AnchorProperties {
      *
      * @return The horizontal offset.
      */
+    @Nullable
     public Integer horizontal() {
         return horizontal;
     }
@@ -263,6 +272,7 @@ public class AnchorProperties {
      *
      * @return The vertical offset.
      */
+    @Nullable
     public Integer vertical() {
         return vertical;
     }
@@ -272,6 +282,7 @@ public class AnchorProperties {
      *
      * @return The width of the element.
      */
+    @Nullable
     public Integer width() {
         return width;
     }
@@ -281,6 +292,7 @@ public class AnchorProperties {
      *
      * @return The minimum width of the element.
      */
+    @Nullable
     public Integer minWidth() {
         return minWidth;
     }
@@ -290,6 +302,7 @@ public class AnchorProperties {
      *
      * @return The maximum width of the element.
      */
+    @Nullable
     public Integer maxWidth() {
         return maxWidth;
     }
