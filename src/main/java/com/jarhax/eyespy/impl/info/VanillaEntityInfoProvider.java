@@ -32,7 +32,7 @@ public class VanillaEntityInfoProvider implements InfoProvider<EntityContext> {
         if (stats != null) {
             final EntityStatValue health = stats.get(EntityStatType.getAssetMap().getIndex("Health"));
             if (health != null) {
-                info.body(new Label(HEALTH, Message.translation("server.eyespy.health").param("current", ROUNDED_1.format(health.get())).param("max", ROUNDED_1.format(health.getMax()))));
+                info.body(new Label(HEALTH, Message.translation("server.eyespy.health").param("current", ROUNDED_1.format(health.get())).param("max", ROUNDED_1.format(health.getMax())).color(INFO_COLOR)));
             }
         }
         if (context.component(Objects.requireNonNull(NPCEntity.getComponentType())) instanceof NPCEntity entity) {
