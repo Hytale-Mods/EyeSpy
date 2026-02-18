@@ -1,4 +1,4 @@
-package com.jarhax.eyespy.api.hud;
+package com.jarhax.eyespy.impl.hud.provider;
 
 import com.buuz135.mhud.MultipleHUD;
 import com.hypixel.hytale.component.ArchetypeChunk;
@@ -9,38 +9,47 @@ import com.hypixel.hytale.server.core.entity.EntityUtils;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
+import com.jarhax.eyespy.impl.component.EyeSpyPlayerData;
 import com.jarhax.eyespy.impl.hud.EyeSpyHud;
-import com.jarhax.eyespy.impl.hud.provider.HudProvider; // Import hinzugefügt
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 public class MultiHudProvider implements HudProvider {
 
     private final Map<PlayerRef, EyeSpyHud> huds = new HashMap<>();
+    public static final String EYE_SPY_IDENTIFIER = "EyeSpy_HUD";
 
     @Override
-    public void showHud(float dt, int index, @NonNullDecl ArchetypeChunk<EntityStore> archetypeChunk, @NonNullDecl Store<EntityStore> store, @NonNullDecl CommandBuffer<EntityStore> commandBuffer) {
+    public void showHud(float delta, int index, @NonNullDecl ArchetypeChunk<EntityStore> archetypeChunk, @NonNullDecl Store<EntityStore> store, @NonNullDecl CommandBuffer<EntityStore> entityBuffer) {
         final Holder<EntityStore> holder = EntityUtils.toHolder(index, archetypeChunk);
         final Player player = holder.getComponent(Player.getComponentType());
         final PlayerRef playerRef = holder.getComponent(PlayerRef.getComponentType());
         if (player == null || playerRef == null) {
             return;
         }
-        if (!huds.containsKey(playerRef)) {
-            EyeSpyHud value = new EyeSpyHud(playerRef);
-            huds.put(playerRef, value);
-            value.updateHud(dt, index, Objects.requireNonNull(archetypeChunk), Objects.requireNonNull(store), Objects.requireNonNull(commandBuffer));
-            MultipleHUD.getInstance().setCustomHud(player, playerRef, "EyeSpy_HUD", value);
+        EyeSpyPlayerData eyeSpyComponent = EyeSpyPlayerData.getSaveData(holder);
+        boolean canShow = eyeSpyComponent.visible() && (eyeSpyComponent.showInBackground() || (player.getWindowManager().getWindows().isEmpty() && player.getPageManager().getCustomPage() == null));
+
+        if (canShow) {
+            if (!huds.containsKey(playerRef)) {
+                EyeSpyHud value = new EyeSpyHud(playerRef);
+                huds.put(playerRef, value);
+                value.updateHud(delta, index, archetypeChunk, store, entityBuffer);
+                MultipleHUD.getInstance().setCustomHud(player, playerRef, EYE_SPY_IDENTIFIER, value);
+            } else {
+                EyeSpyHud value = huds.get(playerRef);
+                value.updateHud(delta, index, archetypeChunk, store, entityBuffer);
+                MultipleHUD.getInstance().setCustomHud(player, playerRef, EYE_SPY_IDENTIFIER, value);
+            }
         } else {
-            EyeSpyHud customUIHud = huds.get(playerRef);
-            customUIHud.updateHud(dt, index, Objects.requireNonNull(archetypeChunk), Objects.requireNonNull(store), Objects.requireNonNull(commandBuffer));
+            if (huds.containsKey(playerRef)) {
+                this.hideHud(delta, index, archetypeChunk, store, entityBuffer);
+            }
         }
     }
 
-    // Die Methode hideHud und name() fehlen ebenfalls, da sie im Interface definiert sind
     @Override
     public void hideHud(float delta, int index, @NonNullDecl ArchetypeChunk<EntityStore> archetypeChunk, @NonNullDecl Store<EntityStore> store, @NonNullDecl CommandBuffer<EntityStore> entityBuffer) {
         final Holder<EntityStore> holder = EntityUtils.toHolder(index, archetypeChunk);
@@ -50,9 +59,10 @@ public class MultiHudProvider implements HudProvider {
             return;
         }
         if (huds.containsKey(playerRef)) {
-            MultipleHUD.getInstance().hideCustomHud(player, playerRef, "EyeSpy_HUD");
+            MultipleHUD.getInstance().hideCustomHud(player, playerRef, EYE_SPY_IDENTIFIER);
             huds.remove(playerRef);
         }
+
     }
 
     @Override

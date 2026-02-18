@@ -1,0 +1,79 @@
+$C = "../../Common.ui";
+
+@DropdownBoxWithLabel = Group {
+  LayoutMode: Top;
+  Label {
+    Text: @Text;
+    Anchor: (Right: 30, Left: 11);
+    Style: (
+      ...$C.@DefaultLabelStyle,
+      VerticalAlignment: Center
+    );
+  }
+  $C.@DropdownBox #Dropdown {
+    @Anchor = (Left: 5, Bottom: 16);
+    NoItemsText: %server.customUI.dropdown.noItems;
+  }
+};
+
+$C.@PageOverlay {
+
+  Padding: (Full: 20);
+  LayoutMode: MiddleCenter;
+  $C.@Container {
+
+    #Title {
+      Group {
+        $C.@Title {
+          @Text = %server.eyespy.config;
+        }
+      }
+    }
+
+    #Content {
+      LayoutMode: Top;
+
+        Group {
+          Padding: (Vertical: 5);
+          $C.@CheckBoxWithLabel #Visible {
+            @Text = %server.eyespy.config.visible;
+            @Checked = true;
+          }
+        }
+
+        Group {
+          Padding: (Vertical: 5);
+          $C.@CheckBoxWithLabel #ShowContainers {
+            @Text = %server.eyespy.config.showContainers;
+            @Checked = true;
+          }
+        }
+        Group {
+          Padding: (Vertical: 5);
+          $C.@CheckBoxWithLabel #ShowProcessingTimes {
+            @Text = %server.eyespy.config.showProcessingTimes;
+            @Checked = true;
+          }
+        }
+        Group {
+          Padding: (Vertical: 5);
+          $C.@CheckBoxWithLabel #ShowInBackground {
+            @Text = %server.eyespy.config.showInBackground;
+            @Checked = true;
+          }
+        }
+        Group {
+          Padding: (Vertical: 5);
+          @DropdownBoxWithLabel #Position {
+            @Text = %server.eyespy.config.position;
+          }
+        }
+      $C.@TextButton #SaveButton {
+        Text: %server.customUI.saveChanges;
+      }
+
+    }
+  }
+}
+
+$C.@BackButton {}

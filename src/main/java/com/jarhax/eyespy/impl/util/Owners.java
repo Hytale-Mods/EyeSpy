@@ -49,7 +49,7 @@ public class Owners {
             }
         }
         catch (IOException e) {
-            EyeSpy.LOGGER.atSevere().withCause(e).log("Failed to read NPCs from pack '%s'.", pack.getName());
+            EyeSpy.LOGGER.atSevere().withCause(e).log("Failed to read NPCs from pack '%s'.");
             throw new RuntimeException("Failed to scan path: " + path, e);
         }
         return fileIds;
@@ -67,7 +67,7 @@ public class Owners {
     }
 
     private static void reloadBlocks() {
-        final Timer timer = new Timer();
+        final long start = System.nanoTime();
         BLOCKS.clear();
         for (AssetPack pack : AssetModule.get().getAssetPacks()) {
             final PluginIdentifier identifier = new PluginIdentifier(pack.getManifest().getGroup(), pack.getManifest().getName());
@@ -78,11 +78,12 @@ public class Owners {
                 }
             }
         }
-        EyeSpy.LOGGER.atInfo().log("Determined owners for %d blocks. Took %sms", BLOCKS.size(), timer.msTimeFormatted());
+        final long end = System.nanoTime();
+        EyeSpy.LOGGER.atInfo().log("Determined owners for %d blocks. Took %fms", BLOCKS.size(), (end - start) / 1_000_000f);
     }
 
     private static void reloadNPCS() {
-        final Timer timer = new Timer();
+        final long start = System.nanoTime();
         NPCS.clear();
         for (AssetPack pack : AssetModule.get().getAssetPacks()) {
             final PluginIdentifier identifier = new PluginIdentifier(pack.getManifest().getGroup(), pack.getManifest().getName());
@@ -90,7 +91,8 @@ public class Owners {
                 NPCS.put(npc, identifier);
             }
         }
-        EyeSpy.LOGGER.atInfo().log("Determined owners for %d NPCs. Took %sms", NPCS.size(), timer.msTimeFormatted());
+        final long end = System.nanoTime();
+        EyeSpy.LOGGER.atInfo().log("Determined owners for %d NPCs. Took %fms", NPCS.size(), (end - start) / 1_000_000f);
     }
 
     /**
