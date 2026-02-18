@@ -1,13 +1,19 @@
 package com.jarhax.eyespy.impl.info;
 
+import com.hypixel.hytale.builtin.adventure.teleporter.component.Teleporter;
 import com.hypixel.hytale.builtin.crafting.state.BenchState;
 import com.hypixel.hytale.builtin.crafting.state.ProcessingBenchState;
+import com.hypixel.hytale.component.Ref;
+import com.hypixel.hytale.math.util.ChunkUtil;
 import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.asset.type.blocktype.config.BlockType;
 import com.hypixel.hytale.server.core.asset.type.item.config.Item;
 import com.hypixel.hytale.server.core.asset.type.item.config.ItemTranslationProperties;
 import com.hypixel.hytale.server.core.inventory.ItemStack;
+import com.hypixel.hytale.server.core.universe.world.World;
+import com.hypixel.hytale.server.core.universe.world.chunk.BlockComponentChunk;
 import com.hypixel.hytale.server.core.universe.world.meta.state.ItemContainerState;
+import com.hypixel.hytale.server.core.universe.world.storage.ChunkStore;
 import com.jarhax.eyespy.EyeSpy;
 import com.jarhax.eyespy.api.MessageHelpers;
 import com.jarhax.eyespy.api.context.BlockContext;
@@ -33,6 +39,23 @@ public class VanillaBlockInfoProvider implements InfoProvider<BlockContext> {
             final Item item = context.getBlock().getItem();
             if (item != null) {
                 infoBuilder.setIcon(new IconValue(item.getId()));
+            }
+
+            BlockComponentChunk blockComponentChunk = context.getChunk().getBlockComponentChunk();
+            int blockIndex = ChunkUtil.indexBlockInColumn(context.getOffsetPos().x, context.getOffsetPos().y, context.getOffsetPos().z);
+            Ref<ChunkStore> blockRef = blockComponentChunk.getEntityReference(blockIndex);
+            if (blockRef != null && blockRef.isValid()) {
+                World world = context.getStore().getExternalData().getWorld();
+                ChunkStore chunkStore = world.getChunkStore();
+
+                if (chunkStore.getStore().getComponent(blockRef, Teleporter.getComponentType()) instanceof Teleporter teleporter) {
+                    if (teleporter.getOwnedWarp() != null) {
+                        infoBuilder.set("TeleporterName", s -> new LabelValue(s, Message.raw("Name: " + teleporter.getOwnedWarp())));
+                    }
+                    if (teleporter.getWarp() != null) {
+                        infoBuilder.set("TeleporterDestination", s -> new LabelValue(s, Message.raw("Destination: " + teleporter.getWarp())));
+                    }
+                }
             }
 
             if (context.getState() != null) {
