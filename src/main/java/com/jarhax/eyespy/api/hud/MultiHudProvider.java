@@ -35,6 +35,7 @@ public class MultiHudProvider implements HudProvider {
         } else {
             EyeSpyHud customUIHud = huds.get(playerRef);
             customUIHud.updateHud(dt, index, archetypeChunk, store, commandBuffer);
+            MultipleHUD.getInstance().setCustomHud(player, playerRef, "EyeSpy_HUD", customUIHud);
         }
     }
 }
