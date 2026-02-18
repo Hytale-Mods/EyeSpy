@@ -3,6 +3,7 @@ package com.jarhax.eyespy.impl.info;
 import com.hypixel.hytale.builtin.adventure.teleporter.component.Teleporter;
 import com.hypixel.hytale.builtin.crafting.state.BenchState;
 import com.hypixel.hytale.builtin.crafting.state.ProcessingBenchState;
+import com.hypixel.hytale.common.plugin.PluginIdentifier;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.math.util.ChunkUtil;
 import com.hypixel.hytale.server.core.Message;
@@ -21,6 +22,7 @@ import com.jarhax.eyespy.api.info.InfoBuilder;
 import com.jarhax.eyespy.api.info.InfoProvider;
 import com.jarhax.eyespy.api.info.InfoValue;
 import com.jarhax.eyespy.api.info.values.*;
+import com.jarhax.eyespy.impl.util.Owners;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -100,9 +102,9 @@ public class VanillaBlockInfoProvider implements InfoProvider<BlockContext> {
                 });
             }
 
-            final String owner = EyeSpy.OWNERSHIP.get(context.getBlock().getId());
+            final PluginIdentifier owner = Owners.blockOwner(context.getBlock().getId());
             if (owner != null) {
-                infoBuilder.set("Footer", s -> new LabelValue(s, Message.raw(owner).color(color).bold(true)));
+                infoBuilder.set("Footer", s -> new LabelValue(s, Message.raw(owner.getName()).color(color).bold(true)));
             }
         }
     }
