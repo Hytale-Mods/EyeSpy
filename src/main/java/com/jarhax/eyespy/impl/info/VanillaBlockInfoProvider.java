@@ -15,13 +15,16 @@ import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.chunk.BlockComponentChunk;
 import com.hypixel.hytale.server.core.universe.world.meta.state.ItemContainerState;
 import com.hypixel.hytale.server.core.universe.world.storage.ChunkStore;
-import com.jarhax.eyespy.EyeSpy;
 import com.jarhax.eyespy.api.MessageHelpers;
 import com.jarhax.eyespy.api.context.BlockContext;
 import com.jarhax.eyespy.api.info.InfoBuilder;
 import com.jarhax.eyespy.api.info.InfoProvider;
 import com.jarhax.eyespy.api.info.InfoValue;
-import com.jarhax.eyespy.api.info.values.*;
+import com.jarhax.eyespy.api.info.values.GroupValue;
+import com.jarhax.eyespy.api.info.values.IconValue;
+import com.jarhax.eyespy.api.info.values.ItemGridValue;
+import com.jarhax.eyespy.api.info.values.LabelValue;
+import com.jarhax.eyespy.api.info.values.ProgressBarValue;
 import com.jarhax.eyespy.impl.util.Owners;
 
 import java.awt.*;
@@ -85,7 +88,7 @@ public class VanillaBlockInfoProvider implements InfoProvider<BlockContext> {
                             for (int j = 0; j < stacks.size(); j++) {
                                 ItemStack itemStack = stacks.get(j);
                                 if (itemStack.isEquivalentType(stack)) {
-                                    stacks.set(j, itemStack.withQuantity(itemStack.getQuantity() + stack.getQuantity()));
+                                    stacks.set(j, itemStack.withQuantity(Math.max(1, saturatingAdd(itemStack.getQuantity(), stack.getQuantity()))));
                                     continue outer;
                                 }
                             }
@@ -121,5 +124,10 @@ public class VanillaBlockInfoProvider implements InfoProvider<BlockContext> {
             }
         }
         return Message.raw(type.getId());
+    }
+
+    private static int saturatingAdd(int a, int b) {
+        long sum = (long) a + b;
+        return (sum > Integer.MAX_VALUE) ? Integer.MAX_VALUE : (sum < Integer.MIN_VALUE) ? Integer.MIN_VALUE : (int) sum;
     }
 }
