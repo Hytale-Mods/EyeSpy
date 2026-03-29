@@ -1,7 +1,7 @@
 {
     "Group": "JarHax",
     "Name": "EyeSpy",
-    "Version": "2026.3.29-21010",
+    "Version": "2026.3.29-80620",
     "Description": "",
     "Authors": [
         {
@@ -20,7 +20,7 @@
         "Hytale:AssetModule": "*"
     },
     "OptionalDependencies": {
-        
+        "Buuz135:MultipleHUD": "*"
     },
     "DisabledByDefault": false,
     "Main": "com.jarhax.eyespy.EyeSpy",

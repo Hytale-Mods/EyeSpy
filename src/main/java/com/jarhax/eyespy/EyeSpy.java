@@ -34,7 +34,11 @@ public class EyeSpy extends JavaPlugin {
     protected void start() {
         PluginBase plugin = PluginManager.get().getPlugin(PluginIdentifier.fromString("Buuz135:MultipleHUD"));
         if (plugin != null) {
-            EyeSpy.provider = new MultiHudProvider();
+            if(MultiHudProvider.create(this) instanceof MultiHudProvider mhudProvider) {
+                EyeSpy.provider = mhudProvider;
+            } else {
+                LOGGER.atSevere().log("Buuz135:MultipleHUD was detected but was not usable! Please report this!");
+            }
         }
         Owners.reload();
     }
