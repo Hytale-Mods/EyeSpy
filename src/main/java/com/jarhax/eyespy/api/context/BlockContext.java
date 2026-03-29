@@ -11,36 +11,27 @@ import com.hypixel.hytale.server.core.modules.entity.component.TransformComponen
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.chunk.WorldChunk;
-import com.hypixel.hytale.server.core.universe.world.meta.BlockState;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.core.util.FillerBlockUtil;
 import com.hypixel.hytale.server.core.util.TargetUtil;
-import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
 
 import javax.annotation.Nullable;
 
 public class BlockContext extends Context {
 
     private final BlockType block;
-    private final BlockState state;
     private final Vector3i targetPos;
     private final Vector3i offsetPos;
 
-    public BlockContext(float delta, int index, ArchetypeChunk<EntityStore> archetypeChunk, Store<EntityStore> store, CommandBuffer<EntityStore> commandBuffer, PlayerRef observer, WorldChunk chunk, Vector3i targetPos, Vector3i offsetPos, BlockType block, BlockState state) {
+    public BlockContext(float delta, int index, ArchetypeChunk<EntityStore> archetypeChunk, Store<EntityStore> store, CommandBuffer<EntityStore> commandBuffer, PlayerRef observer, WorldChunk chunk, Vector3i targetPos, Vector3i offsetPos, BlockType block) {
         super(delta, index, archetypeChunk, store, commandBuffer, observer, chunk);
         this.targetPos = targetPos;
         this.offsetPos = offsetPos;
         this.block = block;
-        this.state = state;
     }
 
     public BlockType getBlock() {
         return block;
-    }
-
-    @Nullable
-    public BlockState getState() {
-        return state;
     }
 
     public Vector3i getTargetPos() {
@@ -82,9 +73,8 @@ public class BlockContext extends Context {
             }
 
             BlockType block = baseChunk.getBlockType(basePos.x, basePos.y, basePos.z);
-            BlockState state = baseChunk.getState(basePos.x, basePos.y, basePos.z);
 
-            return new BlockContext(dt, index, archetypeChunk, store, commandBuffer, player, baseChunk, targetBlockPos, basePos, block, state);
+            return new BlockContext(dt, index, archetypeChunk, store, commandBuffer, player, baseChunk, targetBlockPos, basePos, block);
         }
         return null;
     }
