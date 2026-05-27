@@ -21,9 +21,8 @@ public class VanillaHudProvider implements HudProvider {
 
     @Override
     public void showHud(float dt, int index, @NonNullDecl ArchetypeChunk<EntityStore> archetypeChunk, @NonNullDecl Store<EntityStore> store, @NonNullDecl CommandBuffer<EntityStore> commandBuffer) {
-        final Holder<EntityStore> holder = EntityUtils.toHolder(index, archetypeChunk);
-        final Player player = holder.getComponent(Player.getComponentType());
-        final PlayerRef playerRef = holder.getComponent(PlayerRef.getComponentType());
+        final Player player = archetypeChunk.getComponent(index, Player.getComponentType());
+        final PlayerRef playerRef = archetypeChunk.getComponent(index, PlayerRef.getComponentType());
         if (player == null || playerRef == null) {
             return;
         }
@@ -31,7 +30,7 @@ public class VanillaHudProvider implements HudProvider {
             EyeSpyHud value = new EyeSpyHud(playerRef);
             huds.put(playerRef, value);
             value.updateHud(dt, index, archetypeChunk, store, commandBuffer);
-            player.getHudManager().setCustomHud(playerRef, value);
+            player.getHudManager().addCustomHud(playerRef, value);
         } else {
             EyeSpyHud customUIHud = huds.get(playerRef);
             customUIHud.updateHud(dt, index, archetypeChunk, store, commandBuffer);

@@ -36,7 +36,7 @@ public class VanillaEntityInfoProvider implements InfoProvider<EntityContext> {
             final int statIndex = EntityStatType.getAssetMap().getIndex("Health");
             final EntityStatValue entityStatValue = stats.get(statIndex);
             if (entityStatValue != null) {
-                infoBuilder.set("Health", s -> new LabelValue(s, Message.join(Message.translation("client.itemTooltip.stats.Health"), Message.raw(" %s/%s".formatted(entityStatValue.get(), entityStatValue.getMax())))).setHeight(18 * 3));
+                infoBuilder.set("Health", s -> new LabelValue(s, Message.translation("client.itemTooltip.stats.Health").param("value", Message.raw("%s/%s".formatted(entityStatValue.get(), entityStatValue.getMax())))).setHeight(18 * 3));
             }
         }
 

@@ -42,7 +42,7 @@ public class EyeSpyHud extends CustomUIHud {
     private EntityContext entityContext;
 
     public EyeSpyHud(@Nonnull PlayerRef playerRef) {
-        super(playerRef);
+        super(playerRef, "EyeSpy_HUD");
     }
 
     public void updateHud(float dt, int index, @Nonnull ArchetypeChunk<EntityStore> archetypeChunk, @Nonnull Store<EntityStore> store, @Nonnull CommandBuffer<EntityStore> commandBuffer) {

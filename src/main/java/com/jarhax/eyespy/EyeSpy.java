@@ -1,13 +1,9 @@
 package com.jarhax.eyespy;
 
-import com.hypixel.hytale.common.plugin.PluginIdentifier;
 import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.server.core.plugin.JavaPlugin;
 import com.hypixel.hytale.server.core.plugin.JavaPluginInit;
-import com.hypixel.hytale.server.core.plugin.PluginBase;
-import com.hypixel.hytale.server.core.plugin.PluginManager;
 import com.jarhax.eyespy.api.hud.HudProvider;
-import com.jarhax.eyespy.api.hud.MultiHudProvider;
 import com.jarhax.eyespy.api.hud.VanillaHudProvider;
 import com.jarhax.eyespy.impl.hud.PlayerTickSystem;
 import com.jarhax.eyespy.impl.util.Owners;
@@ -32,14 +28,6 @@ public class EyeSpy extends JavaPlugin {
 
     @Override
     protected void start() {
-        PluginBase plugin = PluginManager.get().getPlugin(PluginIdentifier.fromString("Buuz135:MultipleHUD"));
-        if (plugin != null) {
-            if(MultiHudProvider.create(this) instanceof MultiHudProvider mhudProvider) {
-                EyeSpy.provider = mhudProvider;
-            } else {
-                LOGGER.atSevere().log("Buuz135:MultipleHUD was detected but was not usable! Please report this!");
-            }
-        }
         Owners.reload();
     }
 }
