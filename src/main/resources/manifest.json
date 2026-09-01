@@ -1,7 +1,7 @@
 {
     "Group": "JarHax",
     "Name": "EyeSpy",
-    "Version": "2026.9.1-8706",
+    "Version": "2026.9.1-69189",
     "Description": "",
     "Authors": [
         {
@@ -14,7 +14,7 @@
         }
     ],
     "Website": "https://www.curseforge.com/hytale/mods/eyespy",
-    "ServerVersion": ">=0.5.0",
+    "ServerVersion": ">=0.6.0",
     "Dependencies": {
         "Hytale:EntityModule": "*",
         "Hytale:AssetModule": "*"
