@@ -14,7 +14,6 @@ import com.hypixel.hytale.server.core.inventory.ItemStack;
 import com.hypixel.hytale.server.core.inventory.container.ItemContainer;
 import com.hypixel.hytale.server.core.modules.block.components.ItemContainerBlock;
 import com.hypixel.hytale.server.core.universe.world.World;
-import com.hypixel.hytale.server.core.universe.world.chunk.BlockComponentChunk;
 import com.hypixel.hytale.server.core.universe.world.storage.ChunkStore;
 import com.jarhax.eyespy.api.MessageHelpers;
 import com.jarhax.eyespy.api.context.BlockContext;
@@ -44,10 +43,7 @@ public class VanillaBlockInfoProvider implements InfoProvider<BlockContext> {
             if (item != null) {
                 infoBuilder.setIcon(new IconValue(item.getId()));
             }
-
-            BlockComponentChunk blockComponentChunk = context.getChunk().getBlockComponentChunk();
-            int blockIndex = ChunkUtil.indexBlockInColumn(context.getOffsetPos().x, context.getOffsetPos().y, context.getOffsetPos().z);
-            Ref<ChunkStore> blockRef = blockComponentChunk.getEntityReference(blockIndex);
+            Ref<ChunkStore> blockRef = context.getChunk().getBlockComponentEntity(context.getOffsetPos().x, context.getOffsetPos().y, context.getOffsetPos().z);
             if (blockRef != null && blockRef.isValid()) {
                 World world = context.getStore().getExternalData().getWorld();
                 ChunkStore chunkStore = world.getChunkStore();
